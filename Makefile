@@ -12,7 +12,6 @@ setup.download.dataSet:
 setup.download.models:
 	mkdir -p train/saved_models && \
 	aws s3 cp s3://sf-iot-hackathon/weights.best.basic_cnn.hdf5 . && \
-	aws s3 cp s3://sf-iot-hackathon/weights.best.basic_mlp.hdf5 . && \
 	aws s3 cp s3://sf-iot-hackathon/classes.npy .
 
 test.one:
