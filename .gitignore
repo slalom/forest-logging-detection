@@ -4,5 +4,6 @@ UrbanSound8K/
 chainsaw/
 chainsaw.tar.gz
 train/saved_models
+.ipynb_checkpoints/
 
 __pycache__/
