@@ -3,3 +3,6 @@ UrbanSound8K.tar.gz
 UrbanSound8K/
 chainsaw/
 chainsaw.tar.gz
+train/saved_models
+
+__pycache__/
