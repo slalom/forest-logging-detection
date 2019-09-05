@@ -19,3 +19,6 @@ test.one:
 
 test.all:
 	python test/testAll.py
+
+run.detect:
+	python detect/detect.py

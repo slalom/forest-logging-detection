@@ -29,3 +29,7 @@ The Jupyter notebooks in the `train` folder have been based on Mike Smales' [rep
 
 1. Test one file - `make test.one`
 2. Test all chainsaw files and print stats - `make test.all`
+
+## Run detection
+1. `make run.detect`
+2. Play drilling sounds. E.g. [this](https://youtu.be/gumMKccCS7U?t=150)
