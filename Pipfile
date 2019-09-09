@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 jupyter = "*"
 sounddevice = "*"
+librosa = "==0.4.2"
 
 [dev-packages]
 
