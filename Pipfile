@@ -7,6 +7,9 @@ name = "pypi"
 jupyter = "*"
 sounddevice = "*"
 librosa = "==0.4.2"
+keras = "*"
+tensorflow = "==1.13.1"
+h5py = "*"
 
 [dev-packages]
 
