@@ -1,5 +1,7 @@
 ### IoT Hackathon - Chainsaw Sound detection
 
+![](diagram.jpg)
+
 The Jupyter notebooks in the `train` folder have been based on Mike Smales' [repository](https://github.com/mikesmales/Udacity-ML-Capstone)
 
 
