@@ -19,6 +19,15 @@ The Jupyter notebooks in the `train` folder have been based on Mike Smales' [rep
 2. Download datafiles (5.6 GB): `make setup.download.dataSet`
 3. (optional) Skip training and download models (1.5 MB): `make setup.download.models`
 
+### Running on Raspberry Pi
+
+Install dependencies:
+
+```
+sudo apt-get update
+sudo apt-get install libatlas-base-dev libhdf5-dev
+```
+
 ## Training the model
 
 1. Start Jupyter notebooks: `jupyter notebook`
