@@ -1,4 +1,4 @@
-# IoT Hackathon - Chainsaw Sound detection
+# IoT Hackathon - Illegal Forest Logging Detection
 
 ![](diagram.jpg)
 
