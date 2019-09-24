@@ -8,7 +8,7 @@ The Jupyter notebooks in the `train` folder have been based on Mike Smales' [rep
 ## Prerequisites
 
 - Python 3.6
-- Anaconda
+- Pipenv
 - aws cli
 - access to Slalom's sf-iot-hackathon S3 bucket
 
@@ -17,11 +17,11 @@ The Jupyter notebooks in the `train` folder have been based on Mike Smales' [rep
 
 ### Setup
 
-1. Create the conda environment: `make setup.conda.createEnv`
+1. Create the conda environment: `make setup.env`
 2. Download datafiles (5.6 GB): `make setup.download.dataSet`
 3. (optional) Skip training and download models (1.5 MB): `make setup.download.models`
 
-### Running on Raspberry Pi
+### Running detection on Raspberry Pi
 
 Install dependencies:
 

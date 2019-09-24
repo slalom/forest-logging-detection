@@ -1,7 +1,5 @@
-setup.conda.createEnv:
-	conda config --add channels conda-forge && \
-	conda create --name iot_hackathon --file requirements.txt && \
-	conda activate iot_hackathon
+setup.env:
+	pipenv install
 
 setup.download.dataSet:
 	aws s3 cp s3://sf-iot-hackathon/UrbanSound8K.tar.gz . && \
