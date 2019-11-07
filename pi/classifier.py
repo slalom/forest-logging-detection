@@ -42,4 +42,4 @@ def classify(file_name):
 
     predicted_proba_vector = model.predict_proba(prediction_feature)
     predicted_proba = predicted_proba_vector[0]
-    return (predicted_class[0], predicted_proba, le)
+    return (predicted_class[0], predicted_proba)

@@ -4,8 +4,9 @@ import calendar
 import time
 import math
 import numpy as np
-from pixels import pixels
+from pixel_ring import pixel_ring
 from gcc_phat import gcc_phat
+
 
 # run getDeviceInfo.py to get index
 RESPEAKER_INDEX = 2  # refer to input device id
@@ -21,13 +22,14 @@ SOUND_SPEED = 343.2
 MIC_DISTANCE_4 = 0.08127
 MAX_TDOA_4 = MIC_DISTANCE_4 / float(SOUND_SPEED)
 
-CHUNK_LEN = int(RESPEAKER_RATE / CHUNK * RECORD_SECONDS)
-MID_CHUNK = int(CHUNK_LEN / 2)
+CHUNK_SIZE = int(RESPEAKER_RATE / CHUNK * RECORD_SECONDS)
+MID_CHUNK = int(CHUNK_SIZE / 2)
 
 def get_direction(buf):
     best_guess = None
     tau = [0] * MIC_GROUP_N
     theta = [0] * MIC_GROUP_N
+    
     for i, v in enumerate(MIC_GROUP):
         tau[i], _ = gcc_phat(buf[v[0]::4], buf[v[1]::4], fs=RESPEAKER_RATE, max_tau=MAX_TDOA_4, interp=1)
         theta[i] = math.asin(tau[i] / MAX_TDOA_4) * 180 / math.pi
@@ -43,7 +45,7 @@ def get_direction(buf):
         else:
             best_guess = (180 - theta[1])
 
-        best_guess = (best_guess + 270) % 360
+        best_guess = (best_guess + 90 + 180) % 360
 
     best_guess = (-best_guess + 120) % 360
     return best_guess
@@ -56,26 +58,27 @@ def record():
 
     stream = p.open(
         rate=RESPEAKER_RATE,
-        #format=p.get_format_from_width(RESPEAKER_WIDTH),
-        format=pyaudio.paInt16,
+        format=p.get_format_from_width(RESPEAKER_WIDTH),
         channels=RESPEAKER_CHANNELS,
         input=True,
         input_device_index=RESPEAKER_INDEX,)
 
     print("* recording " + WAVE_OUTPUT_FILENAME)
     frames = []
-    chunks = [] 
-    for i in range(0, CHUNK_LEN):
+    chunks = []
+
+    for i in range(0, CHUNK_SIZE):
         data = stream.read(CHUNK)
         a = np.fromstring(data,dtype=np.int16)[0::4]
+        #frames.append(data)
         frames.append(a.tostring())
         if (i <= MID_CHUNK):
-            chunks.append(a)
+            chunks.append(data)
             
     chunkBuffer = np.concatenate(chunks)
     direction = get_direction(chunkBuffer)
-    pixels.wakeup(direction)
-    print('\n{}'.format(direction))
+    pixel_ring.set_direction(direction)
+    print('\n{}'.format(int(direction)))
 
     stream.stop_stream()
     stream.close()
@@ -84,6 +87,7 @@ def record():
     p.terminate()
 
     wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
+    #wf.setnchannels(RESPEAKER_CHANNELS)
     wf.setnchannels(1)
     wf.setsampwidth(p.get_sample_size(p.get_format_from_width(RESPEAKER_WIDTH)))
     wf.setframerate(RESPEAKER_RATE)
