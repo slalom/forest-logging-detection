@@ -8,32 +8,32 @@ from pixels import pixels
 
 RATE = 16000
 CHANNELS = 4
-VAD_FRAMES = 10     # ms
-DOA_FRAMES = 5000    # ms
+CHUNK_SIZE = 1024
+CHUNK_LENGTH = 78
 
 def main():
     chunks = []
-    #doa_chunks = int(DOA_FRAMES / VAD_FRAMES)
-    doa_chunks = 500
 
     try:
-        with MicArray(RATE, CHANNELS, RATE * VAD_FRAMES / 1000)  as mic:
+        with MicArray(RATE, CHANNELS, CHUNK_SIZE)  as mic:
             for chunk in mic.read_chunks():
                 ts = calendar.timegm(time.gmtime())
                 WAVE_OUTPUT_FILENAME = "testsound_"+str(ts)+".wav"
+                #print('per chunk size:{}'.format(len(chunk)))
                 chunks.append(chunk)
-                if len(chunks) == doa_chunks:
+                #print('length of chunks:{}'.format(len(chunks)))
+                if len(chunks) == CHUNK_LENGTH:
                     frames = np.concatenate(chunks)
-                    direction = mic.get_direction(frames)
-                    pixels.wakeup(direction)
-                    print('\n{}'.format(int(direction)))
                     wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
                     wf.setnchannels(4)
                     wf.setframerate(RATE)
                     wf.setsampwidth(mic.pyaudio_instance.get_sample_size(mic.pyaudio_instance.get_format_from_width(2)))
                     wf.writeframes(b''.join(frames))
                     wf.close()
-                    print('\nwritten')
+
+                    direction = mic.get_direction(frames)
+                    pixels.wakeup(direction)
+                    print('\n{}'.format(int(direction)))
 
                     chunks = []
 
